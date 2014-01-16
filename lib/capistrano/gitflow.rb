@@ -42,7 +42,7 @@ module Capistrano
                                1
                              end
 
-            "#{stage}-#{hwhen}-#{new_tag_serial}-#{who}-#{what}"
+            "#{stage}-#{hwhen}-#{new_tag_serial}-#{local_branch}-#{who}-#{what}"
           end
 
           def last_production_tag()
@@ -79,7 +79,7 @@ Please make sure you have pulled and pushed all code before deploying:
               `git fetch`
 
               if respond_to?("tag_#{stage}")
-                send "tag_#{stage}" 
+                send "tag_#{stage}"
 
                 system "git push --tags origin #{local_branch}"
                 if $? != 0
@@ -101,7 +101,7 @@ Please make sure you have pulled and pushed all code before deploying:
 
             # no idea how to properly test for an optional cap argument a la '-s tag=x'
             to_tag = capistrano_configuration[:tag]
-            to_tag ||= begin 
+            to_tag ||= begin
                          puts "Calculating 'end' tag for :commit_log for '#{stage}'"
                          to_tag = if stage == :production
                                     last_staging_tag
